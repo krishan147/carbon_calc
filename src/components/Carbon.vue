@@ -6,50 +6,116 @@ import { generateClient } from 'aws-amplify/data';
 
 const client = generateClient<Schema>();
 
-// create a reactive reference to the array of todos
-const todos = ref<Array<Schema['Todo']["type"]>>([]);
-
-function listTodos() {
-  client.models.Todo.observeQuery().subscribe({
-    next: ({ items, isSynced }) => {
-      todos.value = items
-     },
-  }); 
-}
-
-function createTodo() {
-  client.models.Todo.create({
-    content: window.prompt("Todo content")
-  }).then(() => {
-    // After creating a new todo, update the list of todos
-    listTodos();
-  });
-}
-    
-// fetch todos when the component is mounted
- onMounted(() => {
-  listTodos();
-});
-
 </script>
 
 <template>
   <main>
-    <h1>datatata todos</h1>
-    <button @click="createTodo">+ new</button>
-    <ul>
-      <li 
-        v-for="todo in todos" 
-        :key="todo.id">
-        {{ todo.content }}
-      </li>
-    </ul>
-    <div>
-      🥳 App successfully hosted. Try creating a new todo.
-      <br />
-      <a href="https://docs.amplify.aws/gen2/start/quickstart/nextjs-pages-router/">
-        Review next steps of this tutorial.
-      </a>
+    <h1>CARBO</h1>
+    <p>Check how much carbon your products use!</p>
+    <input class="input-box" type="text" id="fname" name="fname" placeholder="Search for a product here...">
+
+    <div class="results-box">
+
+
+
+      <div class="product-box">
+        <div class="product-image">
+          <img src="https://www.pngplay.com/wp-content/uploads/9/IPhone-Transparent-Image-Background-PNG.png" alt="Product Image" />
+        </div>
+        <div class="product-description">
+          <div class="product-title">iPhone 5 128GB Black</div>
+          <br>
+
+          670267
+          <div class="product-data">
+            <p>
+              aluminum. glass. lightning.  
+              launched 2012. 112g. 4-inch retina.  
+              a6 chip. 8mp cam. 128gb custom config.
+            </p>
+            
+            <div class="product-title">Footprint & offset</div>
+            <ul>
+              <li>~75kg CO₂e to manufacture</li>
+              <li>~10–15kg CO₂e/year charging</li>
+              <li>2.5 years use = offset manufacture</li>
+              <li>aim for 4–5+ years use</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+
+
+
+      <div class="product-box">
+        <div class="product-image">
+          <img src="https://www.pngplay.com/wp-content/uploads/9/IPhone-Transparent-Image-Background-PNG.png" alt="Product Image" />
+        </div>
+        <div class="product-description">
+          <div class="product-title">iPhone 5 128GB Black</div>
+          <div class="product-data">
+            <p>
+              aluminum. glass. lightning.  
+              launched 2012. 112g. 4-inch retina.  
+              a6 chip. 8mp cam. 128gb custom config.
+            </p>
+
+            <div class="product-title">Footprint & offset</div>
+            <ul>
+              <li>~75kg CO₂e to manufacture</li>
+              <li>~10–15kg CO₂e/year charging</li>
+              <li>2.5 years use = offset manufacture</li>
+              <li>aim for 4–5+ years use</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+
+
+      
+      <div class="product-box">
+        <div class="product-image">
+          <img src="https://www.pngplay.com/wp-content/uploads/9/IPhone-Transparent-Image-Background-PNG.png" alt="Product Image" />
+        </div>
+        <div class="product-description">
+          <div class="product-title">iPhone 5 128GB Black</div>
+          <div class="product-data">
+            <p>
+              aluminum. glass. lightning.  
+              launched 2012. 112g. 4-inch retina.  
+              a6 chip. 8mp cam. 128gb custom config.
+            </p>
+
+            <div class="product-title">Footprint & offset</div>
+            <ul>
+              <li>~75kg CO₂e to manufacture</li>
+              <li>~10–15kg CO₂e/year charging</li>
+              <li>2.5 years use = offset manufacture</li>
+              <li>aim for 4–5+ years use</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+
+      
     </div>
+
+    <div class="stats-box">
+      <div class="carbon-box">Carbo’s CO₂: 84.5K</div>
+      <div class="hits-box">Hits: 3,434</div>
+      <div class="searches-box">Searches: 231</div>
+    </div>
+
+    <div class="buttons-box">
+      <button class="stats-button">Home</button>
+      <button class="stats-button">Privacy Policy</button>
+      <button class="stats-button">About</button>
+    </div>
+
+
+
   </main>
 </template>
