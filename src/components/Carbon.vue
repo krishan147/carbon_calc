@@ -3,11 +3,17 @@ import '@/assets/main.css';
 import { onMounted, ref } from 'vue';
 import type { Schema } from '../../amplify/data/resource';
 import { generateClient } from 'aws-amplify/data';
-import { openRouter, test } from './utils/openRouterApi'
+import { openRouter } from './utils/openRouterApi'
 
 const client = generateClient<Schema>();
+const response = ref<string | null>(null);
 
-test
+async function sendPrompt(prompt: string) {
+  response.value = await openRouter(prompt);
+  console.log(response.value);
+}
+
+sendPrompt("hello")
 
 </script>
 

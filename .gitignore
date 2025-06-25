@@ -35,4 +35,4 @@ amplify_outputs*
 amplifyconfiguration*
 
 deleteme.json
-/src/components/utils/deleteme.json
+/public/deleteme.json
