@@ -33,3 +33,6 @@ coverage
 .amplify
 amplify_outputs*
 amplifyconfiguration*
+
+deleteme.json
+/src/components/utils/deleteme.json

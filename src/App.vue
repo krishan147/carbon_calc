@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import Todos from './components/Carbon.vue'
+import carbon from './components/Carbon.vue'
 </script>
 
 <template>
   <main>
-    <Todos />
+    <carbon />
   </main>
 </template>
 

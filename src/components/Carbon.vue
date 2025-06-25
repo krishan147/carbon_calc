@@ -3,8 +3,11 @@ import '@/assets/main.css';
 import { onMounted, ref } from 'vue';
 import type { Schema } from '../../amplify/data/resource';
 import { generateClient } from 'aws-amplify/data';
+import { openRouter, test } from './utils/openRouterApi'
 
 const client = generateClient<Schema>();
+
+test
 
 </script>
 
@@ -26,7 +29,6 @@ const client = generateClient<Schema>();
           <div class="product-title">iPhone 5 128GB Black</div>
           <br>
 
-          670267
           <div class="product-data">
             <p>
               aluminum. glass. lightning.  
@@ -74,7 +76,7 @@ const client = generateClient<Schema>();
 
 
 
-      
+
       <div class="product-box">
         <div class="product-image">
           <img src="https://www.pngplay.com/wp-content/uploads/9/IPhone-Transparent-Image-Background-PNG.png" alt="Product Image" />
