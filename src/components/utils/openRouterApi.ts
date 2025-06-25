@@ -21,7 +21,7 @@ async function getSecret() {
 }
 
 
-export async function openRouter(prompt) {
+export async function openRouter(prompt: String) {
     const secret_openrouter = await getSecret(); 
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
