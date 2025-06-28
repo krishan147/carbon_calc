@@ -3,17 +3,17 @@ import '@/assets/main.css';
 import { onMounted, ref } from 'vue';
 import type { Schema } from '../../amplify/data/resource';
 import { generateClient } from 'aws-amplify/data';
-import { openRouter } from './utils/openRouterApi'
+import { read_locally, write_locally, get_ranks } from './Access.js'
 
 const client = generateClient<Schema>();
 const response = ref<string | null>(null);
 
-async function sendPrompt(prompt: string) {
-  response.value = await openRouter(prompt);
-  console.log(response.value);
-}
+// async function sendPrompt(prompt: string) {
+//   response.value = await openRouter(prompt);
+//   console.log(response.value);
+// }
 
-sendPrompt("hello")
+// sendPrompt("hello")
 
 </script>
 
@@ -127,3 +127,4 @@ sendPrompt("hello")
 
   </main>
 </template>
+./utils/Access
