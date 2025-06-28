@@ -3,7 +3,7 @@ import '@/assets/main.css';
 import { onMounted, ref } from 'vue';
 import type { Schema } from '../../amplify/data/resource';
 import { generateClient } from 'aws-amplify/data';
-import { get_table } from './Access.js'
+import { get_table } from './utils/Access.js'
 
 const client = generateClient<Schema>();
 const response = ref<string | null>(null);
