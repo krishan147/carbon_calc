@@ -3,10 +3,14 @@ import '@/assets/main.css';
 import { onMounted, ref } from 'vue';
 import type { Schema } from '../../amplify/data/resource';
 import { generateClient } from 'aws-amplify/data';
-import { get_table } from './utils/Access.js'
+import { getTable } from './utils/Access.js'
+
+onMounted(async () => {
+  const response = await getTable("iphone"); //iphone headphone
+  console.log(response);
+});
 
 const client = generateClient<Schema>();
-const response = ref<string | null>(null);
 
 // async function sendPrompt(prompt: string) {
 //   response.value = await openRouter(prompt);

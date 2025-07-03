@@ -1,10 +1,10 @@
 import fs from 'fs';
 import path from 'path';
 
-export async function get_table(search: String) {
+export async function getTable(search: String) {
 
   
-  const url = 'https://sidwswpe72.execute-api.eu-west-1.amazonaws.com/production/todayssums';
+  const url = `https://advl8wt1sk.execute-api.eu-west-1.amazonaws.com/prod/use_openrouter_93824932vj32jcvuhinf9014vu120x1?query=${search}`;
 
   const headers = {
       'Content-Type': 'application/json'
@@ -27,3 +27,5 @@ export async function get_table(search: String) {
       console.error('Error:', error);
   } 
 }
+
+
