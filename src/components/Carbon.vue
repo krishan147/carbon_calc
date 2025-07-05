@@ -5,19 +5,44 @@ import type { Schema } from '../../amplify/data/resource';
 import { generateClient } from 'aws-amplify/data';
 import { getTable } from './utils/Access.js'
 
+const products = ref<Product[]>([]);
+  const expandedTitleIndex = ref<number | null>(null);
+
+type Product = {
+  title: string;
+  imgUrl: string;
+  category_name: string;
+  carbon_to_manufacture: string;
+  carbon_one_year: string;
+  carbon_break_even_use_years: string;
+  target_use_years: string;
+};
+
 onMounted(async () => {
-  const response = await getTable("iphone"); //iphone headphone
-  console.log(response);
+  const response = await getTable("iphone"); 
+  products.value = (response || []).slice(0, 10);
 });
 
-const client = generateClient<Schema>();
+function truncate(text: string, maxLength: number): string {
+  return text.length > maxLength ? text.slice(0, maxLength) + '…' : text;
+}
 
-// async function sendPrompt(prompt: string) {
-//   response.value = await openRouter(prompt);
-//   console.log(response.value);
-// }
 
-// sendPrompt("hello")
+const visiblePopupText = ref<string | null>(null);
+let popupTimeout: ReturnType<typeof setTimeout> | null = null;
+
+function showPopup(text: string) {
+  visiblePopupText.value = text;
+
+  if (popupTimeout) {
+    clearTimeout(popupTimeout);
+  }
+
+  popupTimeout = setTimeout(() => {
+    visiblePopupText.value = null;
+    popupTimeout = null;
+  }, 2000); 
+}
 
 </script>
 
@@ -28,91 +53,52 @@ const client = generateClient<Schema>();
     <input class="input-box" type="text" id="fname" name="fname" placeholder="Search for a product here...">
 
     <div class="results-box">
+      <div>
+        <div 
+          v-for="(product, index) in products" 
+          :key="index" 
+          class="product-box"
+        >
+          <div class="product-image">
+            <img 
+              :src="product.imgUrl" 
+              :alt="product.imgUrl" 
+            />
+          </div>
+          
+          <div class="product-description">
+            <div
+              class="product-title"
+              :title="product.title"
+              @click="showPopup(product.title)"
+              @mouseenter="showPopup(product.title)"
+            >
+              {{ truncate(product.title, 45) }} - {{ truncate(product.category_name) }}
+            </div>
 
+            <!-- Centered Popup -->
+            <div
+              v-if="visiblePopupText"
+              class="popup-center"
+            >
+              {{ visiblePopupText }}
+            </div>
+            <br />
 
+            <div class="product-data">
 
-      <div class="product-box">
-        <div class="product-image">
-          <img src="https://www.pngplay.com/wp-content/uploads/9/IPhone-Transparent-Image-Background-PNG.png" alt="Product Image" />
-        </div>
-        <div class="product-description">
-          <div class="product-title">iPhone 5 128GB Black</div>
-          <br>
-
-          <div class="product-data">
-            <p>
-              aluminum. glass. lightning.  
-              launched 2012. 112g. 4-inch retina.  
-              a6 chip. 8mp cam. 128gb custom config.
-            </p>
-            
-            <div class="product-title">Footprint & offset</div>
-            <ul>
-              <li>~75kg CO₂e to manufacture</li>
-              <li>~10–15kg CO₂e/year charging</li>
-              <li>2.5 years use = offset manufacture</li>
-              <li>aim for 4–5+ years use</li>
-            </ul>
+              <div class="product-title">Footprint & offset</div>
+              <br />
+              <div class="product-bullets">
+                <li>{{ product.carbon_to_manufacture }} CO₂e to manufacture</li>
+                <li>{{ product.carbon_one_year }} CO₂e/year charging</li>
+                <li>{{ product.carbon_break_even_use_years }} to offset manufacture</li>
+                <li>aim for {{ product.target_use_years }}</li>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-
-
-
-
-      <div class="product-box">
-        <div class="product-image">
-          <img src="https://www.pngplay.com/wp-content/uploads/9/IPhone-Transparent-Image-Background-PNG.png" alt="Product Image" />
-        </div>
-        <div class="product-description">
-          <div class="product-title">iPhone 5 128GB Black</div>
-          <div class="product-data">
-            <p>
-              aluminum. glass. lightning.  
-              launched 2012. 112g. 4-inch retina.  
-              a6 chip. 8mp cam. 128gb custom config.
-            </p>
-
-            <div class="product-title">Footprint & offset</div>
-            <ul>
-              <li>~75kg CO₂e to manufacture</li>
-              <li>~10–15kg CO₂e/year charging</li>
-              <li>2.5 years use = offset manufacture</li>
-              <li>aim for 4–5+ years use</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-
-
-
-      <div class="product-box">
-        <div class="product-image">
-          <img src="https://www.pngplay.com/wp-content/uploads/9/IPhone-Transparent-Image-Background-PNG.png" alt="Product Image" />
-        </div>
-        <div class="product-description">
-          <div class="product-title">iPhone 5 128GB Black</div>
-          <div class="product-data">
-            <p>
-              aluminum. glass. lightning.  
-              launched 2012. 112g. 4-inch retina.  
-              a6 chip. 8mp cam. 128gb custom config.
-            </p>
-
-            <div class="product-title">Footprint & offset</div>
-            <ul>
-              <li>~75kg CO₂e to manufacture</li>
-              <li>~10–15kg CO₂e/year charging</li>
-              <li>2.5 years use = offset manufacture</li>
-              <li>aim for 4–5+ years use</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-
-      
     </div>
 
     <div class="stats-box">
@@ -131,4 +117,3 @@ const client = generateClient<Schema>();
 
   </main>
 </template>
-./utils/Access

@@ -84,7 +84,7 @@ p {
 
 .product-description {
   flex: 2;
-  font-size: 12px;
+  font-size: 16px;
   padding: 10px;
 
   /* border: 2px solid;
@@ -111,6 +111,9 @@ p {
 .product-title {
   font-style: italic;
   text-align: center;
+  font-size: 14px;
+  text-overflow: ellipsis; 
+  cursor: pointer;
 }
 
 .results-box {
@@ -173,4 +176,41 @@ p {
   font-style: normal;
   font-weight: normal;
   src: url('/typefaces/lg.ttf') format('truetype');
+}
+
+.product-bullets {
+  text-align: center;
+  font-size: 14px;
+}
+
+.popup-center {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.9);
+  color: #fff;
+  padding: 16px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  max-width: 80%;
+  text-align: center;
+  z-index: 9999;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  animation: fadeInOut 2s ease forwards;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+  10%, 90% {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -40%);
+  }
 }
