@@ -6,11 +6,20 @@ import { generateClient } from 'aws-amplify/data';
 import { getTable } from './utils/Access.js'
 
 const products = ref<Product[]>([]);
-  const expandedTitleIndex = ref<number | null>(null);
+const expandedTitleIndex = ref<number | null>(null);
+const searchTerm = ref<string>(''); 
+  const loading = ref<boolean>(false);
+
+
+// onMounted(async () => {
+//   const response = await getTable(searchTerm.value); 
+//   console.log(response);
+// });
+
 
 type Product = {
   title: string;
-  imgUrl: string;
+  imgurl: string;
   category_name: string;
   carbon_to_manufacture: string;
   carbon_one_year: string;
@@ -18,15 +27,33 @@ type Product = {
   target_use_years: string;
 };
 
-onMounted(async () => {
-  const response = await getTable("iphone"); 
-  products.value = (response || []).slice(0, 10);
-});
+async function fetchProducts() {
+  if (!searchTerm.value.trim()) {
+    products.value = [];
+    return;
+  }
+  loading.value = true; 
+  products.value = []; 
+
+  try {
+    const response = await getTable(searchTerm.value.trim());
+    console.log('Search results for:', searchTerm.value, response);
+    products.value = (response || []).slice(0, 10);
+  } catch (error) {
+    console.error('Error fetching products:', error);
+  } finally {
+    loading.value = false;
+  }
+}
+function handleKeyup(event: KeyboardEvent) {
+  if (event.key === 'Enter') {
+    fetchProducts();
+  }
+}
 
 function truncate(text: string, maxLength: number): string {
   return text.length > maxLength ? text.slice(0, maxLength) + '…' : text;
 }
-
 
 const visiblePopupText = ref<string | null>(null);
 let popupTimeout: ReturnType<typeof setTimeout> | null = null;
@@ -50,9 +77,15 @@ function showPopup(text: string) {
   <main>
     <h1>CARBO</h1>
     <p>Check how much carbon your products use!</p>
-    <input class="input-box" type="text" id="fname" name="fname" placeholder="Search for a product here...">
+    <input v-model="searchTerm" class="input-box" type="text" id="fname" name="fname" placeholder="Search for a product here..." @keyup="handleKeyup"/>
+      <button class="stats-button" @click="fetchProducts">Submit</button>
 
     <div class="results-box">
+        <div v-if="loading" class="loader-container">
+          <div class="loader">
+              <div class="loader-text">Loading...</div>
+          </div>
+        </div>
       <div>
         <div 
           v-for="(product, index) in products" 
@@ -61,8 +94,8 @@ function showPopup(text: string) {
         >
           <div class="product-image">
             <img 
-              :src="product.imgUrl" 
-              :alt="product.imgUrl" 
+              :src="product.imgurl" 
+              :alt="product.imgurl" 
             />
           </div>
           
@@ -73,7 +106,7 @@ function showPopup(text: string) {
               @click="showPopup(product.title)"
               @mouseenter="showPopup(product.title)"
             >
-              {{ truncate(product.title, 45) }} - {{ truncate(product.category_name) }}
+              {{ truncate(product.title, 45) }} - {{ product.category_name }}
             </div>
 
             <!-- Centered Popup -->
