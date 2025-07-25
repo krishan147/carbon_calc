@@ -3,18 +3,26 @@ import '@/assets/main.css';
 import { onMounted, ref } from 'vue';
 import type { Schema } from '../../amplify/data/resource';
 import { generateClient } from 'aws-amplify/data';
-import { getTable } from './utils/Access.js'
+import { getTable, getStats } from './utils/Access.js'
 
 const products = ref<Product[]>([]);
+const stats = ref<Stats[]>([]);
 const expandedTitleIndex = ref<number | null>(null);
 const searchTerm = ref<string>(''); 
   const loading = ref<boolean>(false);
 
 
-// onMounted(async () => {
-//   const response = await getTable(searchTerm.value); 
-//   console.log(response);
-// });
+onMounted(async () => {
+  const response = await getStats(); 
+  console.log(response)
+  console.log(response.searches)
+  stats.value = response
+});
+
+type Stats = {
+  target_use_years: string;
+  carbo_co2: string
+}
 
 
 type Product = {
@@ -25,6 +33,7 @@ type Product = {
   carbon_one_year: string;
   carbon_break_even_use_years: string;
   target_use_years: string;
+  carbo_co2: string
 };
 
 async function fetchProducts() {
@@ -135,9 +144,9 @@ function showPopup(text: string) {
     </div>
 
     <div class="stats-box">
-      <div class="carbon-box">Carbo’s CO₂: 84.5K</div>
+      <div class="carbon-box">{{ stats.carbo_co2 }}</div>
       <div class="hits-box">Hits: 3,434</div>
-      <div class="searches-box">Searches: 231</div>
+      <div class="searches-box">{{ stats.searches }}</div>
     </div>
 
     <div class="buttons-box">

@@ -27,3 +27,30 @@ export async function getTable(search: String) {
       console.error('Error:', error);
   } 
 }
+
+export async function getStats() {
+
+    console.log("getStats loading")
+    const url = `https://advl8wt1sk.execute-api.eu-west-1.amazonaws.com/prod/use_openrouter_3928312903982109301239jrfew`;
+  
+    const headers = {
+        'Content-Type': 'application/json'
+    };
+  
+    try {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: headers
+        });
+  
+        if (!response.ok) {
+           return "no data found";
+        }
+  
+        const data = await response.json();
+  
+        return data["results"];
+    } catch (error) {
+        console.error('Error:', error);
+    } 
+  }
