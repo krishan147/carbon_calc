@@ -41,8 +41,8 @@ const navigate = inject<(page: string) => void>('navigate');
             <h2 class="text-subtitle">7. Contact</h2>
             <p>
               If you have any questions or concerns about this Privacy Policy, please contact us at
-              <a class="custom-link" href="https://bsky.app/profile/krishgames.bsky.social" target="_blank" rel="noopener noreferrer">
-                https://bsky.app/profile/krishgames.bsky.social
+              <a class="custom-link" href="https://bsky.app/profile/krishanv.bsky.social" target="_blank" rel="noopener noreferrer">
+                https://bsky.app/profile/krishanv.bsky.social
               </a>
             </p>
         </div>
