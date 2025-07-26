@@ -28,6 +28,12 @@ const navigate = inject<(page: string) => void>('navigate');
               https://bsky.app/profile/krishgames.bsky.social
             </a>
         </div>
+        <div class="text-general">
+            -
+        </div>
+        <div class="text-general">
+            This is version 1.01.
+        </div>
         
       </div>
   
