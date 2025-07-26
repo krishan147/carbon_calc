@@ -24,15 +24,15 @@ const navigate = inject<(page: string) => void>('navigate');
         <div class="text-general">
             If you have any questions, contact us here:
 
-            <a class="custom-link" href="https://bsky.app/profile/krishgames.bsky.social" target="_blank" rel="noopener noreferrer">
-              https://bsky.app/profile/krishgames.bsky.social
+            <a class="custom-link" href="https://bsky.app/profile/krishanv.bsky.social" target="_blank" rel="noopener noreferrer">
+              https://bsky.app/profile/krishanv.bsky.social
             </a>
         </div>
         <div class="text-general">
             -
         </div>
         <div class="text-general">
-            This is version 1.01.
+            This is version 1.011.
         </div>
         
       </div>
