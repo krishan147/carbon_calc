@@ -9,12 +9,13 @@ import { inject } from 'vue';
 const navigate = inject<(page: string) => void>('navigate');
 
 const products = ref<Product[]>([]);
-const stats = ref<Stats[]>([]);
+const stats = ref<Stats | null>(null);
 const searchTerm = ref<string>(''); 
 const loading = ref<boolean>(false);
 
 onMounted(async () => {
   const response = await getStats(); 
+
   stats.value = response
 
 });
@@ -145,9 +146,9 @@ function showPopup(text: string) {
     </div>
 
     <div class="stats-box">
-      <div class="carbon-box">{{ stats[0]?.carbo_co2 }}</div>
-      <div class="hits-box">{{ stats[0]?.hits }}</div>
-      <div class="searches-box">{{ stats[0]?.searches }}</div>
+      <div class="carbon-box">{{ stats?.carbo_co2 }}</div>
+      <div class="hits-box">{{ stats?.hits }}</div>
+      <div class="searches-box">{{ stats?.searches }}</div>
     </div>
 
     <div class="buttons-box">
