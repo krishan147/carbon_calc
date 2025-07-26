@@ -4,24 +4,25 @@ import { onMounted, ref } from 'vue';
 import type { Schema } from '../../amplify/data/resource';
 import { generateClient } from 'aws-amplify/data';
 import { getTable, getStats } from './utils/Access.js'
+import { inject } from 'vue';
+
+const navigate = inject<(page: string) => void>('navigate');
 
 const products = ref<Product[]>([]);
 const stats = ref<Stats[]>([]);
-const expandedTitleIndex = ref<number | null>(null);
 const searchTerm = ref<string>(''); 
-  const loading = ref<boolean>(false);
-
+const loading = ref<boolean>(false);
 
 onMounted(async () => {
   const response = await getStats(); 
-  console.log(response)
-  console.log(response.searches)
   stats.value = response
+
 });
 
 type Stats = {
-  target_use_years: string;
-  carbo_co2: string
+  carbo_co2: string;
+  hits: string;
+  searches: string;
 }
 
 
@@ -33,7 +34,6 @@ type Product = {
   carbon_one_year: string;
   carbon_break_even_use_years: string;
   target_use_years: string;
-  carbo_co2: string
 };
 
 async function fetchProducts() {
@@ -46,12 +46,13 @@ async function fetchProducts() {
 
   try {
     const response = await getTable(searchTerm.value.trim());
-    console.log('Search results for:', searchTerm.value, response);
     products.value = (response || []).slice(0, 10);
   } catch (error) {
     console.error('Error fetching products:', error);
   } finally {
     loading.value = false;
+    const updatedStats = await getStats();
+    stats.value = updatedStats;
   }
 }
 function handleKeyup(event: KeyboardEvent) {
@@ -61,6 +62,7 @@ function handleKeyup(event: KeyboardEvent) {
 }
 
 function truncate(text: string, maxLength: number): string {
+
   return text.length > maxLength ? text.slice(0, maxLength) + '…' : text;
 }
 
@@ -85,14 +87,14 @@ function showPopup(text: string) {
 <template>
   <main>
     <h1>CARBO</h1>
-    <p>Check how much carbon your products use!</p>
-    <input v-model="searchTerm" class="input-box" type="text" id="fname" name="fname" placeholder="Search for a product here..." @keyup="handleKeyup"/>
+    <p>Check how much carbon your products use</p>
+    <input v-model="searchTerm" class="input-box" type="text" id="fname" name="fname" placeholder="Search for a product here" @keyup="handleKeyup"/>
       <button class="stats-button" @click="fetchProducts">Submit</button>
 
     <div class="results-box">
         <div v-if="loading" class="loader-container">
           <div class="loader">
-              <div class="loader-text">Loading...</div>
+              <div class="loader-text">Searching</div>
           </div>
         </div>
       <div>
@@ -118,7 +120,6 @@ function showPopup(text: string) {
               {{ truncate(product.title, 45) }} - {{ product.category_name }}
             </div>
 
-            <!-- Centered Popup -->
             <div
               v-if="visiblePopupText"
               class="popup-center"
@@ -144,15 +145,15 @@ function showPopup(text: string) {
     </div>
 
     <div class="stats-box">
-      <div class="carbon-box">{{ stats.carbo_co2 }}</div>
-      <div class="hits-box">Hits: 3,434</div>
-      <div class="searches-box">{{ stats.searches }}</div>
+      <div class="carbon-box">{{ stats[0]?.carbo_co2 }}</div>
+      <div class="hits-box">{{ stats[0]?.hits }}</div>
+      <div class="searches-box">{{ stats[0]?.searches }}</div>
     </div>
 
     <div class="buttons-box">
-      <button class="stats-button">Home</button>
-      <button class="stats-button">Privacy Policy</button>
-      <button class="stats-button">About</button>
+      <button class="stats-button" @click="navigate?.('Carbon')">Home</button>
+      <button class="stats-button" @click="navigate?.('PrivacyPolicy')">Privacy Policy</button>
+      <button class="stats-button" @click="navigate?.('About')">About</button>
     </div>
 
 

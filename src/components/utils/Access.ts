@@ -3,7 +3,6 @@ import path from 'path';
 
 export async function getTable(search: String) {
 
-  console.log("getTable loading")
   const url = `https://advl8wt1sk.execute-api.eu-west-1.amazonaws.com/prod/use_openrouter_93824932vj32jcvuhinf9014vu120x1?query=${search}`;
 
   const headers = {
@@ -30,7 +29,6 @@ export async function getTable(search: String) {
 
 export async function getStats() {
 
-    console.log("getStats loading")
     const url = `https://advl8wt1sk.execute-api.eu-west-1.amazonaws.com/prod/use_openrouter_3928312903982109301239jrfew`;
   
     const headers = {

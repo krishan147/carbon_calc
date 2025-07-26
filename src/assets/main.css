@@ -312,4 +312,32 @@ p {
   }
 }
   
-  
+.text-general {
+  font-size: 1.1rem;
+  font-family: 'CCFont', sans-serif;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+.text-subtitle {
+  font-size: 1.2rem;
+  font-family: 'CCFont', sans-serif;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+a.custom-link {
+  text-decoration: underline;
+  color: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+a.custom-link:hover {
+  text-decoration: underline;
+}
+
+.link-icon {
+  font-size: 0.9rem;
+}
